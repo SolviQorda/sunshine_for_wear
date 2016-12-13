@@ -3,26 +3,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+              android:background="@color/primary"
                 >
     <LinearLayout android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:layout_gravity="center_horizontal">
+                  android:layout_gravity="center_horizontal"
+                android:paddingTop="@dimen/digital_text_size">
         <TextView
             android:id="@+id/hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="@dimen/digital_text_size_round"
             android:text="00"
         />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/digital_text_size_round"
+
             android:text=":"/>
 
         <TextView
             android:id="@+id/minute"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/digital_text_size_round"
+
             android:text="00"
         />
 
@@ -30,7 +38,7 @@
 
     <LinearLayout android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-    android:orientation="horizontal"
+                    android:orientation="horizontal"
                   android:layout_gravity="center_horizontal"
     >
 
@@ -58,25 +66,33 @@
 
     </LinearLayout>
 
+    <!--android:paddingStart="@dimen/digital_text_size"-->
+    <!--android:paddingLeft="@dimen/digital_text_size"-->
+    <!--android:paddingEnd="@dimen/digital_text_size"-->
+    <!--android:paddingRight="@dimen/digital_text_size"-->
 
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="@dimen/digital_text_size_round"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:paddingTop="5dp"
+    >
 
         <ImageView
             android:id="@+id/weather_icon"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/digital_text_size_round"
+            android:layout_height="@dimen/digital_text_size_round"
             android:src="@drawable/storm"/>
 
         <TextView
             android:id="@+id/high"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/weather_icon"
             android:text="27"
-            android:layout_gravity="center_vertical"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical|center_horizontal"
         />
 
         <TextView
@@ -84,10 +100,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="-17"
-            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@+id/high"
+            android:layout_centerVertical="true"
+            android:paddingStart="5dp"
+            android:paddingLeft="5dp"
+            android:textStyle="normal"
+            android:layout_gravity="center_vertical|center_horizontal"
         />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 
