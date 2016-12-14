@@ -77,6 +77,7 @@ GoogleApiClient.OnConnectionFailedListener{
     private static final String DATA_ICONID = "icon_id";
     private static final String DATA_HIGH = "high";
     private static final String DATA_LOW = "low";
+    private static final String DATA_TIMESTAMP = "timestamp";
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -689,10 +690,15 @@ GoogleApiClient.OnConnectionFailedListener{
 
         mGoogleApiClient.connect();
 
+        Long longTimestamp = System.currentTimeMillis()/1000;
+        String timeStamp = longTimestamp.toString();
+
         PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(WEARABLE_DATA_PATH);
         putDataMapRequest.getDataMap().putString(DATA_ICONID, iconId);
         putDataMapRequest.getDataMap().putString(DATA_HIGH, Utility.formatTemperature(getContext(), high));
         putDataMapRequest.getDataMap().putString(DATA_LOW, Utility.formatTemperature(getContext(), low));
+        putDataMapRequest.getDataMap().putString(DATA_TIMESTAMP, timeStamp);
+
 
         //this is an urgent matter - we can't wait
         putDataMapRequest.setUrgent();

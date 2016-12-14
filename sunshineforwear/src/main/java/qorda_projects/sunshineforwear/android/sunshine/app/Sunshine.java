@@ -28,6 +28,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
 import android.text.format.Time;
@@ -44,12 +45,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.DataItem;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
 import java.lang.ref.WeakReference;
@@ -69,6 +73,7 @@ public class Sunshine extends CanvasWatchFaceService {
     private static final String DATA_ICONID = "icon_id";
     private static final String DATA_HIGH = "high";
     private static final String DATA_LOW = "low";
+    private static final String WEARABLE_DATA_PATH = "/weather_data";
 
     private static final Typeface NORMAL_TYPEFACE =
             Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL);
@@ -139,8 +144,8 @@ public class Sunshine extends CanvasWatchFaceService {
                 low.setText(lowIntent);
             }
         };
-        float mXOffset;
-        float mYOffset;
+        float mXOffset = 0;
+        float mYOffset = 0;
 
         /**
          * Whether the display supports fewer bits for each color in ambient mode. When true, we
@@ -327,6 +332,7 @@ public class Sunshine extends CanvasWatchFaceService {
             myLayout.layout(0, 0, myLayout.getMeasuredWidth(), myLayout.getMeasuredHeight());
 
             canvas.translate(mXOffset, mYOffset);
+            canvas.drawColor(getResources().getColor(R.color.primary));
             myLayout.draw(canvas);
 
         }
@@ -365,10 +371,13 @@ public class Sunshine extends CanvasWatchFaceService {
 
         @Override
         public void onConnected(Bundle connectionHint) {
+            Wearable.DataApi.addListener(mGoogleApiClient, Engine.this);
+            requestWeatherFromMobile();
             Log.d(LOG_TAG, "onConnected: " + connectionHint );
         }
 
-        @Override
+
+            @Override
         public void onConnectionSuspended(int cause){
             Log.d(LOG_TAG, "onConnectionSuspended: " + cause);
         }
@@ -418,6 +427,22 @@ public class Sunshine extends CanvasWatchFaceService {
 
                 }
             }
+        }
+        public void requestWeatherFromMobile() {
+            PutDataMapRequest request = PutDataMapRequest.create(WEARABLE_DATA_PATH);
+            PutDataRequest dataRequest = request.asPutDataRequest();
+            request.setUrgent();
+
+            Wearable.DataApi.putDataItem(mGoogleApiClient, dataRequest).setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
+                @Override
+                public void onResult(@NonNull DataApi.DataItemResult dataItemResult) {
+                    if (!dataItemResult.getStatus().isSuccess()){
+                        Log.v(LOG_TAG, "getting data from phone failed");
+                    } else {
+                        Log.v(LOG_TAG, "got data from phone");
+                    }
+                }
+            });
         }
     }
 }
