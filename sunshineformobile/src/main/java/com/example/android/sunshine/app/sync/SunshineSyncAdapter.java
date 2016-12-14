@@ -686,6 +686,9 @@ GoogleApiClient.OnConnectionFailedListener{
     }
 
     private void sendDataForWearable(String iconId, Double high, Double low) {
+
+        mGoogleApiClient.connect();
+
         PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(WEARABLE_DATA_PATH);
         putDataMapRequest.getDataMap().putString(DATA_ICONID, iconId);
         putDataMapRequest.getDataMap().putString(DATA_HIGH, Utility.formatTemperature(getContext(), high));
