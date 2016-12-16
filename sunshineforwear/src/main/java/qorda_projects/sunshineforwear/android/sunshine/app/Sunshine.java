@@ -20,7 +20,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -153,7 +152,7 @@ public class Sunshine extends CanvasWatchFaceService {
          */
         boolean mLowBitAmbient;
 
-        GoogleApiClient mGoogleApiClient;
+        private GoogleApiClient mGoogleApiClient;
 
         @Override
         public void onCreate(SurfaceHolder holder) {
@@ -165,7 +164,7 @@ public class Sunshine extends CanvasWatchFaceService {
                     .setShowSystemUiTime(false)
                     .setAcceptsTapEvents(true)
                     .build());
-            Resources resources = Sunshine.this.getResources();
+//            Resources resources = Sunshine.this.getResources();
 
             mGoogleApiClient = new GoogleApiClient.Builder(Sunshine.this)
                     .addConnectionCallbacks(this)

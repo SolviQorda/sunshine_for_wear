@@ -8,10 +8,14 @@ android {
         applicationId "com.example.android.sunshine.app"
         minSdkVersion 21
         targetSdkVersion 24
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
     }
     buildTypes {
+        debug {
+            debuggable true
+        }
         release {
             minifyEnabled false
 //            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

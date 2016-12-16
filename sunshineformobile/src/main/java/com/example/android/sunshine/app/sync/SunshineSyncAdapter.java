@@ -713,5 +713,6 @@ GoogleApiClient.OnConnectionFailedListener{
                         }
                     }
                 });
+
     }
 }
